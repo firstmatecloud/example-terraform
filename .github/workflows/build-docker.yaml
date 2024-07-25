@@ -28,6 +28,8 @@ jobs:
           fetch-depth: 0
           submodules: true
       - uses: hashicorp/setup-terraform@v3
+      - name: validate init
+        run: terraform init
       - name: validate terraform
         run: terraform validate
       - name: test terraform
