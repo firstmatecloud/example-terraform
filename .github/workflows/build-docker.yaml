@@ -1,0 +1,34 @@
+name: Build and deploy Node.js docker image - firstmate-git-manager
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  push:
+    branches:
+      - main
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: '18.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
+  APP_NAME: firstmate-git-manager
+  REPO_NAME: desyco
+  HELM_EXPERIMENTAL_OCI: 1
+  ENVIRONMENT_REPOSITORY_DEV: chart-env-dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: validate terraform
+    outputs:
+      tag: ${{ steps.bump_version.outputs.new_tag }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: true
+      - uses: hashicorp/setup-terraform@v3
+      - name: validate terraform
+        run: terraform validate
+      - name: test terraform
+        run: terraform test

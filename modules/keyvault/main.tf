@@ -1,5 +1,9 @@
 data "azurerm_client_config" "current" {}
 
+data "azuread_service_principal" "keyvault" {
+  display_name = "keyvault"
+}
+
 resource "azurerm_key_vault" "keyvault" {
   name                = var.key_vault_name
   location            = var.location
@@ -12,26 +16,32 @@ resource "azurerm_key_vault" "keyvault" {
     object_id = data.azurerm_client_config.current.object_id
 
     secret_permissions = [
-      "get",
-      "list",
-      "set",
-      "delete",
-      "recover",
-      "backup",
-      "restore",
+      "Get",
+      "List",
+      "Set",
+      "Delete",
+      "Recover",
+      "Backup",
+      "Restore",
     ]
 
     key_permissions = [
-      "create",
-      "delete",
-      "list",
-      "get",
-      "import",
-      "update",
-      "sign",
-      "verify",
-      "wrapKey",
-      "unwrapKey",
+      "Backup",
+      "Create",
+      "Decrypt",
+      "Delete",
+      "Encrypt",
+      "Get",
+      "Import",
+      "List",
+      "Purge",
+      "Recover",
+      "Restore",
+      "Sign",
+      "UnwrapKey",
+      "Update",
+      "Verify",
+      "WrapKey"
     ]
   }
 }
