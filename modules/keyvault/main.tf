@@ -1,8 +1,5 @@
 data "azurerm_client_config" "current" {}
 
-data "azuread_service_principal" "keyvault" {
-  display_name = "keyvault"
-}
 
 resource "azurerm_key_vault" "keyvault" {
   name                = var.key_vault_name
